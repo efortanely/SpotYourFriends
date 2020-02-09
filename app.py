@@ -1,20 +1,15 @@
 #!/usr/bin/env python3
 
-#from dotenv import load_dotenv
 import os
 import sys
 import spotipy
 import spotipy.util as util
 from flask import Flask, render_template, url_for, request, redirect
 import random
-from boto.s3.connection import S3Connection
 #import base64
 
-#load_dotenv()
-
-#CLIENT_ID = os.getenv("CLIENT_ID")
-#CLIENT_SECRET = os.getenv("CLIENT_SECRET")
-s3 = S3Connection(os.environ['CLIENT_ID'], os.environ['CLIENT_SECRET'])
+CLIENT_ID = os.environ["CLIENT_ID"]
+CLIENT_SECRET = os.environ["CLIENT_SECRET"]
 scope = 'user-library-read playlist-modify-public'
 
 app = Flask(__name__)
