@@ -1,8 +1,13 @@
+html{
+    height: 100%;
+}
+
 body{
     font-family: Helvetica,Arial,sans-serif;
     background-image: linear-gradient(white, rgb(81, 207, 125));
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
 header{
@@ -55,6 +60,10 @@ form{
     margin-top: 20px;
 }
 
+#playlistImage{
+    margin-top: 20px;
+}
+
 .playlistLength{
     margin-bottom: 20px;
 }
@@ -77,6 +86,10 @@ form{
     width: 50px;
     height: 20px;
 }
+
+input[type=number]::-webkit-inner-spin-button {
+    opacity: 1;
+  }
 
 #songsCounter p{
     margin-left: 5px;

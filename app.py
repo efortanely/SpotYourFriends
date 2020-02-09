@@ -6,9 +6,8 @@ import sys
 import spotipy
 import spotipy.util as util
 from flask import Flask, render_template, url_for, request, redirect
-
-#TODO add bootstrap styling
-#TODO host on heroku
+import random
+#import base64
 
 load_dotenv()
 
@@ -65,20 +64,16 @@ def home():
         try:
             playlist_name = request.form['playlist_name']
         except:
-            #alert
-            print('no playlist name')
             return render_template('spotYourFriends.html')
 
-        try:
-            image = request.form['image']
-        except:
-            image = '/static/hacklahoma.png'
+        
+        image = request.form['image']
+        if not image:
+            image = 'static/hacklahoma.png'
 
         try:
-            num_songs = request.form['quantity']
+            num_songs = int(request.form['quantity'])
         except:
-            #alert
-            print('no quantity')
             return render_template('spotYourFriends.html')
 
         if len(usernames) >= 2:
@@ -92,12 +87,22 @@ def home():
                 except:
                     pass
             
-            #TODO add random songs if less than threshold
+            songs_needed = num_songs - len(shared_songs)
+            if songs_needed > 0:
+                all_songs = set()
+                for user in usernames:
+                    all_songs |= get_all_song_ids_for_user(user, sp)
+                shared_songs |= set(random.sample(all_songs, songs_needed))
+            else:
+                shared_songs = list(shared_songs)[:num_songs]
 
             if not is_playlist_created(playlist_name, sp):
-                print('created playlist')
                 playlist_id = sp.user_playlist_create(usernames[0], playlist_name)['id']
-                #TODO change image
+                '''
+                with open(image, 'rb') as image_file:
+                    encoded_string = base64.b64encode(image_file.read())
+                    sp.playlist_upload_cover_image(playlist_id, encoded_string)
+                '''
                 sp.user_playlist_add_tracks(usernames[0], playlist_id, shared_songs)
                 return redirect('spotify:playlist:' + playlist_id, code=302)
             else:

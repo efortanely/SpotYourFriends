@@ -31,9 +31,11 @@
             </div>
 
             <!--Playlist image-->
-            <p><label id="playlistName" for="file" style="cursor: pointer;">Upload Playlist Cover</label></p>
-            <p><img id="output" width="200" src="/static/hacklahoma.png"></p>
-            <p><input type="file"  accept="image/*" name="image" id="file"  onchange= "loadFile(event)" ></p>
+            <div id="playlistImage">
+                <p>Upload Playlist Cover</p>
+                <p><img id="output" width="200" src="/static/hacklahoma.png"></p>
+                <p><input type="file"  accept="image/*" name="image" id="file"  onchange= "loadFile(event)" ></p>
+            </div>
 
             <!--Playlist length-->
             <div class="playlistLength">
