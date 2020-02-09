@@ -15,8 +15,6 @@ from boto.s3.connection import S3Connection
 #CLIENT_ID = os.getenv("CLIENT_ID")
 #CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 s3 = S3Connection(os.environ['CLIENT_ID'], os.environ['CLIENT_SECRET'])
-CLIENT_ID = s3.get_bucket('CLIENT_ID').get_all_keys().next()
-CLIENT_SECRET = s3.get_bucket('CLIENT_SECRET').get_all_keys().next()
 scope = 'user-library-read playlist-modify-public'
 
 app = Flask(__name__)
