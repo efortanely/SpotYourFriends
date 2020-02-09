@@ -5,30 +5,30 @@ import os
 import sys
 import spotipy
 import spotipy.util as util
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request, redirect
+
+#TODO add bootstrap styling
+#TODO host on heroku
 
 load_dotenv()
 
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
-
-#app = Flask(__name__)
-
-#TODO
 scope = 'user-library-read playlist-modify-public'
-username = 'charlieissomine'
-username2 = 'edolivares16'
-playlist_name = username + ' and ' + username2 + "'s Mix"
 
-#@app.route('/')
-#def home():
-token = util.prompt_for_user_token(username=username, scope=scope, client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri='http://127.0.0.1/callback')
-sp = spotipy.Spotify(auth=token)
+app = Flask(__name__)
 
-#returns set of all songs across playlists
-def get_all_song_ids(username: str):
-    songs = set()
+def get_all_song_ids_for_user(username: str, sp):
     playlists = sp.user_playlists(username)
+    return get_all_songs(playlists, sp)
+
+def get_all_song_ids_for_current_user(sp):
+    playlists = sp.current_user_playlists()
+    return get_all_songs(playlists, sp)
+
+def get_all_songs(playlists, sp):
+    songs = set()
+
     for playlist in playlists['items']:
         name = playlist['name']
         playlist_id = playlist['id']
@@ -38,10 +38,10 @@ def get_all_song_ids(username: str):
             songs.add(id)
     return songs
 
-def is_playlist_created(username: str):
+def is_playlist_created(playlist_name, sp):
     playlist_exists = False
-    
-    playlists = sp.user_playlists(username)
+
+    playlists = sp.current_user_playlists()
     for playlist in playlists['items']:
         name = playlist['name']
         if name == playlist_name:
@@ -49,14 +49,62 @@ def is_playlist_created(username: str):
     
     return playlist_exists
 
-songs1 = get_all_song_ids(username)
-songs2 = get_all_song_ids(username2)
-shared_songs = songs1 & songs2
+@app.route('/', methods = ["GET", "POST"])
+def home():
+    if request.method == 'POST':
+        usernames = []
+        try:
+            usernames.append(request.form['input0'])
+            usernames.append(request.form['input1'])
+            usernames.append(request.form['input2'])
+            usernames.append(request.form['input3'])
+            usernames.append(request.form['input4'])
+        except:
+            pass
+        
+        try:
+            playlist_name = request.form['playlist_name']
+        except:
+            #alert
+            print('no playlist name')
+            return render_template('spotYourFriends.html')
 
-if not is_playlist_created(username):
-    playlist_id = sp.user_playlist_create(username, playlist_name)['id']
-    sp.user_playlist_add_tracks(username, playlist_id, shared_songs)
+        try:
+            image = request.form['image']
+        except:
+            image = '/static/hacklahoma.png'
+
+        try:
+            num_songs = request.form['quantity']
+        except:
+            #alert
+            print('no quantity')
+            return render_template('spotYourFriends.html')
+
+        if len(usernames) >= 2:
+            token = util.prompt_for_user_token(username=usernames[0], scope=scope, client_id=CLIENT_ID, client_secret=CLIENT_SECRET, redirect_uri='http://127.0.0.1/callback')
+            sp = spotipy.Spotify(auth=token)
+
+            shared_songs = get_all_song_ids_for_current_user(sp)
+            for user in usernames[1:]:
+                try:
+                    shared_songs &= get_all_song_ids_for_user(user, sp)
+                except:
+                    pass
+            
+            #TODO add random songs if less than threshold
+
+            if not is_playlist_created(playlist_name, sp):
+                print('created playlist')
+                playlist_id = sp.user_playlist_create(usernames[0], playlist_name)['id']
+                #TODO change image
+                sp.user_playlist_add_tracks(usernames[0], playlist_id, shared_songs)
+                return redirect('spotify:playlist:' + playlist_id, code=302)
+            else:
+                return render_template('spotYourFriends.html')
+    else:
+        return render_template('spotYourFriends.html')
 
 
-#if __name__ == '__main__':
-#    app.run(threaded=True, port=5000)
+if __name__ == '__main__':
+    app.run(threaded=True, port=5000)
