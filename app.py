@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from dotenv import load_dotenv
 import os
 import sys
 import spotipy
@@ -12,8 +11,6 @@ import requests
 import json
 
 app = Flask(__name__)
-
-load_dotenv()
 
 #Client Keys
 CLIENT_ID = os.environ["CLIENT_ID"]
