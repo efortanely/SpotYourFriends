@@ -26,7 +26,7 @@ SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
 #Server-side Parameters
 CLIENT_SIDE_URL = "http://spotyourfriends.herokuapp"
 PORT = 5000
-REDIRECT_URI = "{}:{}/callback/q".format(CLIENT_SIDE_URL, PORT)
+REDIRECT_URI = "{}/callback/q".format(CLIENT_SIDE_URL)
 SCOPE = 'user-library-read playlist-modify-public'
 STATE = ""
 SHOW_DIALOG_bool = True
