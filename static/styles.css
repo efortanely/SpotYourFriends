@@ -3,7 +3,7 @@ html{
 }
 
 body{
-    font-family: Helvetica,Arial,sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     background-image: linear-gradient(white, rgb(81, 207, 125));
     margin: 0;
     padding: 0;
@@ -28,7 +28,7 @@ h1{
 }
 
 h3{
-    width: 550px;
+    width: 80%;
     margin: 0 auto;
     padding-bottom: 20px;
     font-size: 20px;
@@ -108,4 +108,10 @@ footer{
     margin: 0;
     padding: 0;
     height: 100px;
+}
+
+@media screen and (min-width: 600px){    
+    h3{
+        width: 550px;
+    }
 }
