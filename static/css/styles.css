@@ -1,0 +1,117 @@
+html{
+    height: 100%;
+}
+
+body{
+    font-family: Helvetica, Arial, sans-serif;
+    background-image: linear-gradient(white, rgb(81, 207, 125));
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#spotify{
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+}
+
+h1{
+    font-size: 5vw;
+}
+
+h3{
+    width: 80%;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    font-size: 20px;
+}
+
+form{
+    text-align: center;
+}
+
+.additionalInputs{
+    width: 150px;
+    margin-top: 5px;
+}
+
+.removeUsername{
+    font-size: 15px;
+}
+
+#addButton{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    margin: 20px;
+    padding: -15px;
+}
+
+#playlistName{
+    margin-top: 20px;
+}
+
+#playlistImage{
+    margin-top: 20px;
+}
+
+.playlistLength{
+    margin-bottom: 20px;
+}
+
+.playlistLength p{
+    margin-bottom: 5px;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+#songsCounter{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+#songsCounter input{
+    width: 50px;
+    height: 20px;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    opacity: 1;
+  }
+
+#songsCounter p{
+    margin-left: 5px;
+    margin-top: 0px;
+    font-size: 15px;
+}
+
+#submit{
+    margin: 20px;
+}
+
+footer{
+    text-align: center;
+    line-height: 40px;
+    background-color: linear-gradient(rgb(81, 207, 125));
+    margin: 0;
+    padding: 0;
+    height: 100px;
+}
+
+@media screen and (min-width: 600px){    
+    h3{
+        width: 550px;
+    }
+}
